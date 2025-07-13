@@ -8,11 +8,11 @@
 		<version>2.7.16</version>
 		<relativePath/>
 	</parent>
-	<groupId>net.engineeringdigest</groupId>
+	<groupId>net.shubhankarpotnis</groupId>
 	<artifactId>diaryApp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Journal App</name>
-	<description>E2EE Journal App</description>
+	<name>Diary App</name>
+	<description>E2EE Diary App</description>
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>

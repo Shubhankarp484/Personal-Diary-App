@@ -1,4 +1,4 @@
-package net.engineeringdigest.diaryApp;
+package net.shubhankarpotnis.diaryApp;
 
 
 import org.springframework.boot.SpringApplication;

@@ -1,4 +1,4 @@
-package net.engineeringdigest.diaryApp.controller;
+package net.shubhankarpotnis.diaryApp.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
