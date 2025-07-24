@@ -31,7 +31,7 @@ public class UserController {
         userService.saveEntry(user);
     }
 
-    @PutMapping("/{userName")
+    @PutMapping("/{userName}")
     public ResponseEntity<?> updateUser(@RequestBody User user, @PathVariable String userName){
         User userInDb = userService.findByUserName(user.getUserName());
         if(userInDb != null){

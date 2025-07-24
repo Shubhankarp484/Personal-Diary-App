@@ -2,7 +2,10 @@ package net.shubhankarpotnis.diaryApp.controller;
 
 
 import net.shubhankarpotnis.diaryApp.entity.DiaryEntry;
+import net.shubhankarpotnis.diaryApp.entity.User;
+import net.shubhankarpotnis.diaryApp.repository.UserRepository;
 import net.shubhankarpotnis.diaryApp.service.DiaryEntryService;
+import net.shubhankarpotnis.diaryApp.service.UserService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,20 +23,24 @@ public class DiaryEntryControllerV2 {
   @Autowired
   private DiaryEntryService diaryEntryService;
 
-    @GetMapping
-    public ResponseEntity<?> getAll(){
-      List<DiaryEntry> all = diaryEntryService.getAll();
+  @Autowired
+  private UserService userService;
+  
+
+    @GetMapping("{userName}")
+    public ResponseEntity<?> getAllDairyEntriesOfUser(@PathVariable String userName){
+        User user = userService.findByUserName(userName);
+        List<DiaryEntry> all = user.getDiaryEntries();
       if(all != null && !all.isEmpty()){
         return new ResponseEntity<>(all, HttpStatus.OK);
       }
     return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping
-    public ResponseEntity<DiaryEntry> createEntry(@RequestBody DiaryEntry myEntry){
+    @PostMapping("{userName}")
+    public ResponseEntity<DiaryEntry> createEntry(@RequestBody DiaryEntry myEntry, @PathVariable String userName){
      try{
-       myEntry.setDate(LocalDateTime.now());
-       diaryEntryService.saveEntry(myEntry);
+       diaryEntryService.saveEntry(myEntry, userName);
        return new ResponseEntity<>(myEntry, HttpStatus.CREATED);
      }catch(Exception e){
        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -49,14 +56,18 @@ public class DiaryEntryControllerV2 {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @DeleteMapping("id/{myId}")
-    public ResponseEntity<?> deleteDiaryEntryById(@PathVariable ObjectId myId){
-         diaryEntryService.deleteById(myId);
+    @DeleteMapping("id/{userName}/{myId}")
+    public ResponseEntity<?> deleteDiaryEntryById(@PathVariable ObjectId myId, @PathVariable String userName){
+         diaryEntryService.deleteById(myId, userName);
          return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PutMapping("/id/{myId}")
-    public ResponseEntity<?> updateDiaryById(@PathVariable ObjectId myId, @RequestBody DiaryEntry newEntry){
+    @PutMapping("/id/{userName}/{myId}")
+    public ResponseEntity<?> updateDiaryById(
+            @PathVariable ObjectId myId,
+            @RequestBody DiaryEntry newEntry,
+            @PathVariable String userName
+    ){
       DiaryEntry oldEntry = diaryEntryService.findById(myId).orElse(null);
       if(oldEntry != null){
         oldEntry.setTitle(newEntry.getTitle() != null && !newEntry.getTitle().isEmpty() ? newEntry.getTitle() : oldEntry.getTitle());
