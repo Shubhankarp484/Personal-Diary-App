@@ -1,8 +1,6 @@
 package net.shubhankarpotnis.diaryApp.service;
 
-import net.shubhankarpotnis.diaryApp.entity.DiaryEntry;
 import net.shubhankarpotnis.diaryApp.entity.User;
-import net.shubhankarpotnis.diaryApp.repository.DiaryEntryRepository;
 import net.shubhankarpotnis.diaryApp.repository.UserRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,11 +8,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.ErrorManager;
 
 @Component
 public class UserService {
@@ -24,10 +20,14 @@ public class UserService {
 
     private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    public void saveEntry(User user){
+    public void saveNewUser(User user){
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoles(Arrays.asList("USER"));
             userRepository.save(user);
+    }
+
+    public void saveUser(User user){
+        userRepository.save(user);
     }
 
     public List<User> getAll(){

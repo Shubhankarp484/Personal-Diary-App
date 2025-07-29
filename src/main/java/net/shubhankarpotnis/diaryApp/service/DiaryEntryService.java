@@ -30,7 +30,7 @@ public class DiaryEntryService {
               diaryEntry.setDate(LocalDateTime.now());
               DiaryEntry saved = diaryEntryRepository.save(diaryEntry);
               user.getDiaryEntries().add(saved);
-              userService.saveEntry(user);
+              userService.saveUser(user);
           } catch (Exception e){
               log.error("Exception ", e);
           }
@@ -48,12 +48,24 @@ public class DiaryEntryService {
         return diaryEntryRepository.findById(id);
     }
 
-    public void deleteById(ObjectId id, String userName){
-        User user = userService.findByUserName(userName);
-        user.getDiaryEntries().removeIf(x -> x.getId().equals(id));
-        userService.saveEntry(user);
-        diaryEntryRepository.deleteById(id);
+    @Transactional
+    public boolean deleteById(ObjectId id, String userName){
+        boolean removed = false;
+        try{
+            User user = userService.findByUserName(userName);
+             removed = user.getDiaryEntries().removeIf(x -> x.getId().equals(id));
+            if(removed) {
+                userService.saveUser(user);
+                diaryEntryRepository.deleteById(id);
+            }
+        }
+        catch(Exception e){
+            System.out.println(e);
+            throw new RuntimeException("An error occurred while deleting the entry.", e);
+        }
+        return removed;
     }
+
 }
 
 // controller ---> service ---> repository
