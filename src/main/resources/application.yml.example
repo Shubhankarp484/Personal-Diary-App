@@ -1,0 +1,13 @@
+# This is a sample config file.
+
+spring:
+  data:
+    mongodb:
+      uri: ${MONGO_URI}
+      database: Diarydb
+      auto-index-creation: true
+
+server:
+  port: 8080
+  servlet:
+    context-path: /diary
