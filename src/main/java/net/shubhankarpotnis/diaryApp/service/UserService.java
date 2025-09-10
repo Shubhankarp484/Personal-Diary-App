@@ -26,6 +26,9 @@ public class UserService {
             userRepository.save(user);
     }
     public void saveAdmin(User user){
+        if(user.getPassword()==null || user.getPassword().isEmpty()){
+            throw new IllegalArgumentException("Password cannot be empty");
+        }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoles(Arrays.asList("USER", "ADMIN"));
         userRepository.save(user);
@@ -35,7 +38,7 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public List<User> getAll(){
+    public List<User> getAllUsers(){
         return userRepository.findAll();
     }
 

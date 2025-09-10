@@ -40,9 +40,9 @@ public class DiaryEntryService {
         diaryEntryRepository.save(diaryEntry);
     }
 
-    public List<DiaryEntry> getAll(){
-        return diaryEntryRepository.findAll();
-    }
+//    public List<DiaryEntry> getAllDiaryEntries(){
+//        return diaryEntryRepository.findAll();
+//    }
 
     public Optional<DiaryEntry> findById(ObjectId id){
         return diaryEntryRepository.findById(id);
