@@ -7,6 +7,7 @@ import net.shubhankarpotnis.diaryApp.repository.DiaryEntryRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Slf4j
-@Component
+@Service
 public class DiaryEntryService {
 
     @Autowired
@@ -60,7 +61,6 @@ public class DiaryEntryService {
             }
         }
         catch(Exception e){
-            System.out.println(e);
             throw new RuntimeException("An error occurred while deleting the entry.", e);
         }
         return removed;

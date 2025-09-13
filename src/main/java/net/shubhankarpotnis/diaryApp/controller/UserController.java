@@ -1,8 +1,10 @@
 package net.shubhankarpotnis.diaryApp.controller;
 
 
+import net.shubhankarpotnis.diaryApp.apiResponse.QuoteApiResponse;
 import net.shubhankarpotnis.diaryApp.entity.User;
 import net.shubhankarpotnis.diaryApp.repository.UserRepository;
+import net.shubhankarpotnis.diaryApp.service.QuotesService;
 import net.shubhankarpotnis.diaryApp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +22,9 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private QuotesService quotesService;
 
     @PutMapping
     public ResponseEntity<?> updateUser(@RequestBody User user){
@@ -39,5 +44,19 @@ public class UserController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         userRepository.deleteByUserName(authentication.getName());
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+
+    @GetMapping("/greeting")
+    public String greeting(Authentication authentication) {
+        String username = authentication.getName();
+
+        // Fetch random quote
+        QuoteApiResponse quoteApiResponse = quotesService.getQuote();
+
+        // Fallback if author is empty
+        String author = (quoteApiResponse.getQuoteAuthor() == null || quoteApiResponse.getQuoteAuthor().isEmpty()) ? "Unknown" : quoteApiResponse.getQuoteAuthor();
+
+        return "Hi " + username + "\n\n" + "\"" + quoteApiResponse.getQuoteText() + "\" — " + author;
     }
 }
