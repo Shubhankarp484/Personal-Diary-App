@@ -7,8 +7,13 @@ COPY pom.xml mvnw ./
 COPY .mvn .mvn
 RUN ./mvnw -B -DskipTests dependency:go-offline
 
-# Copy source code and build the JAR
+# Copy source code and
 COPY src ./src
+
+# Copy application.yml from the example to be used in the build
+COPY src/main/resources/application.yml.example src/main/resources/application.yml
+
+# build the JAR
 RUN ./mvnw -B package -DskipTests \
     && cp target/*.jar app.jar
 

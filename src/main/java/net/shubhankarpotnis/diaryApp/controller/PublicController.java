@@ -14,6 +14,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+import java.util.Map;
+
 @Slf4j
 @RestController
 @RequestMapping("/public")
@@ -32,8 +35,8 @@ public class PublicController {
     private JwtUtil jwtUtil;
 
     @GetMapping("/health-check")
-    public String healthCheck(){
-        return "Okay";
+    public Map<String, String> healthCheck() {
+        return Collections.singletonMap("status", "OK");
     }
 
     @PostMapping("/signup")
