@@ -1,22 +1,20 @@
 package net.shubhankarpotnis.diaryApp.repository;
 
 import net.shubhankarpotnis.diaryApp.entity.User;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.data.mongo.AutoConfigureDataMongo;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
-@AutoConfigureDataMongo
-class UserRepositoryTest {
 
- //this class is testing directly on the real DB, Plz configure that !!!!!
+@DataMongoTest
+@ActiveProfiles("test")
+class UserRepositoryTest {
 
     @Autowired
     private UserRepository userRepository;

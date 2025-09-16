@@ -1,0 +1,8 @@
+spring:
+  data:
+    mongodb:
+      database: diaryAppTest
+      port: 0
+  mongodb:
+    embedded:
+      version: 4.0.2

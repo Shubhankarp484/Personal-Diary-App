@@ -14,6 +14,8 @@ src/main/resources/application.properties
 .springBeans
 .sts4-cache
 *.yml
+!.github/workflows/*.yml
+!src/main/resources/application-test.yml
 *.log
 ### IntelliJ IDEA ###
 .idea
