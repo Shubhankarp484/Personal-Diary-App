@@ -1,5 +1,5 @@
 # ---------- build stage ----------
-FROM maven:3.8.7-openjdk-11 AS builder
+FROM maven:3.8.7-eclipse-temurin-11 AS builder
 WORKDIR /usr/src/app
 
 # Copy pom.xml and Maven wrapper first (for caching dependencies)
